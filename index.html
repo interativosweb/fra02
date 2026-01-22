@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atividade Interativa</title>
+    <title>Atividade de Matemática</title>
     <style>
-        /* RESET E FONTE */
+        /* CONFIGURAÇÃO GERAL (RESET) */
         * {
             margin: 0;
             padding: 0;
@@ -14,35 +14,35 @@
         }
 
         body {
-            height: 100vh;
-            display: flex;
-            background-color: #f4f4f9; /* Cor de fundo suave para a tela geral */
-            overflow: hidden; /* Evita rolagem desnecessária */
+            height: 100vh; /* Ocupa a altura total da tela */
+            display: flex; /* Divide a tela lado a lado */
+            background-color: #f4f4f9;
+            overflow: hidden; /* Evita barras de rolagem */
         }
 
-        /* LADO ESQUERDO - IMAGENS */
+        /* LADO ESQUERDO - ONDE FICA A IMAGEM */
         .container-imagem {
             width: 50%;
             height: 100%;
-            background-color: #ffffff; /* Fundo branco solicitado */
+            background-color: #ffffff; /* Fundo branco puro */
             display: flex;
             align-items: center;
             justify-content: center;
-            /* Sem bordas ou sombras conforme pedido */
+            /* Sem borda e sem sombra, conforme seu pedido */
         }
 
         .imagem-atividade {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain;
-            /* Garante que a imagem não estique e mantenha proporção */
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain; /* Garante que a imagem não distorça */
+            transition: opacity 0.3s ease; /* Suavidade ao trocar a foto */
         }
 
-        /* LADO DIREITO - OPÇÕES */
+        /* LADO DIREITO - ONDE FICAM AS OPÇÕES */
         .container-opcoes {
             width: 50%;
             height: 100%;
-            background-color: #2c3e50; /* Cor escura para contraste elegante */
+            background-color: #2c3e50; /* Azul escuro elegante */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -52,39 +52,48 @@
 
         h1 {
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             font-weight: 300;
+            text-align: center;
         }
 
+        /* ESTILO DOS BOTÕES */
         .btn-opcao {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(255, 255, 255, 0.1); /* Transparente */
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 15px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 15px 20px;
             margin: 10px 0;
-            width: 100%;
-            max-width: 300px;
+            width: 80%; /* Largura do botão */
+            max-width: 400px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
             text-align: center;
+            transition: all 0.3s ease;
         }
 
         .btn-opcao:hover {
             background-color: #ffffff;
             color: #2c3e50;
-            transform: translateX(5px); /* Efeito de movimento leve */
+            transform: scale(1.02); /* Aumenta levemente ao passar o mouse */
         }
 
-        /* RESPONSIVIDADE PARA CELULAR */
+        /* AJUSTE PARA CELULAR (Fica um em cima do outro) */
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
+                overflow-y: auto; /* Permite rolar no celular */
             }
-            .container-imagem, .container-opcoes {
+            .container-imagem {
                 width: 100%;
-                height: 50%;
+                height: 50vh;
+                padding: 20px;
+            }
+            .container-opcoes {
+                width: 100%;
+                min-height: 50vh;
+                padding: 20px;
             }
         }
     </style>
@@ -92,23 +101,40 @@
 <body>
 
     <div class="container-imagem">
-        <img id="imagemPrincipal" class="imagem-atividade" src="imagens/exemplo1.png" alt="Imagem da Atividade">
+        <img id="imagemPrincipal" class="imagem-atividade" src="Site_Fracoes/foto1.jpg" alt="Imagem da Atividade">
     </div>
 
     <div class="container-opcoes">
-        <h1>Selecione a Opção</h1>
+        <h1>Escolha uma opção:</h1>
         
-        <div class="btn-opcao" onclick="mudarImagem('imagens/exemplo1.png')">Opção A (Atividade 1)</div>
-        <div class="btn-opcao" onclick="mudarImagem('imagens/exemplo2.png')">Opção B (Atividade 2)</div>
-        <div class="btn-opcao" onclick="mudarImagem('imagens/exemplo3.png')">Opção C (Atividade 3)</div>
-    </div>
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto1.jpg')">
+            Visualizar Imagem 1
+        </div>
+
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto2.jpg')">
+            Visualizar Imagem 2
+        </div>
+
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto3.jpg')">
+            Visualizar Imagem 3
+        </div>
+
+        </div>
 
     <script>
-        // Função simples para trocar a imagem quando clicar no botão
-        function mudarImagem(caminhoNovaImagem) {
-            // Em um cenário real, você verificaria se a imagem existe ou carregaria dinamicamente
-            document.getElementById('imagemPrincipal').src = caminhoNovaImagem;
+        // Função que faz a mágica de trocar a imagem
+        function mudarImagem(novoCaminho) {
+            var imagem = document.getElementById('imagemPrincipal');
+            
+            // Um pequeno efeito de "piscar" para suavizar a troca
+            imagem.style.opacity = 0;
+            
+            setTimeout(function() {
+                imagem.src = novoCaminho;
+                imagem.style.opacity = 1;
+            }, 200);
         }
     </script>
+
 </body>
 </html>
