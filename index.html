@@ -3,351 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matemática do Dia a Dia</title>
+    <title>Matemática Interativa</title>
     <style>
-        /* --- DESIGN SYSTEM (ESTILO APPLE) --- */
+        /* --- ESTILO APPLE (CLEAN DESIGN) --- */
         :root {
-            --bg-body: #f5f5f7; /* Fundo geral cinza claro */
-            --card-bg: #ffffff;
-            --section-answer-bg: #fbfbfd;
-            --text-main: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent: #0071e3; /* Azul padrão */
-            --success: #34c759;
-            --error: #ff3b30;
-            --radius: 20px;
+            --bg-app: #f5f5f7;       /* Fundo geral (Cinza Claro) */
+            --bg-card: #ffffff;      /* Fundo dos cartões (Branco) */
+            --text-primary: #1d1d1f; /* Preto Suave */
+            --text-secondary: #86868b; /* Cinza Texto */
+            --accent: #0071e3;       /* Azul Apple */
+            --success: #34c759;      /* Verde Sucesso */
+            --error: #ff3b30;        /* Vermelho Erro */
+            --radius: 24px;          /* Cantos bem arredondados */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            padding-bottom: 100px;
-        }
-
-        /* CABEÇALHO */
-        header {
-            text-align: center;
-            padding: 60px 20px;
-            background-color: white;
-            border-bottom: 1px solid #e5e5e5;
-            margin-bottom: 40px;
-        }
-        header h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 10px; }
-        header p { color: var(--text-secondary); font-size: 1.1rem; }
-
-        /* CONTAINER CENTRAL */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 60px; /* Espaço entre as questões */
-        }
-
-        /* CARTÃO DA QUESTÃO */
-        .card-atividade {
-            background-color: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        /* PARTE 1: A PERGUNTA E IMAGEM */
-        .secao-pergunta {
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .imagem-contexto {
-            width: 100%;
-            height: 250px;
-            object-fit: contain;
-            margin-bottom: 30px;
-            border-radius: 12px;
-        }
-
-        .enunciado {
-            font-size: 1.3rem;
-            font-weight: 500;
-            text-align: center;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-
-        /* GRIDE DE OPÇÕES */
-        .grid-opcoes {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .btn-opcao {
-            background-color: #f5f5f7;
-            border: 1px solid transparent;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.2s;
+            height: 100vh;
+            background-color: var(--bg-app);
+            color: var(--text-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
+            overflow: hidden; /* Evita rolagem na tela inteira */
         }
 
-        .btn-opcao:hover:not(:disabled) {
-            background-color: #e8e8ed;
-            transform: scale(1.02);
+        /* CONTAINER PRINCIPAL (A "JANELA" DO APP) */
+        .app-container {
+            width: 95%;
+            max-width: 1400px;
+            height: 90vh;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; /* Esquerda maior (Atividade), Direita menor (Resposta) */
+            gap: 20px;
         }
 
-        /* ESTADOS DO BOTÃO */
-        .btn-opcao.certo { background-color: var(--success); color: white; border-color: var(--success); }
-        .btn-opcao.errado { background-color: var(--error); color: white; border-color: var(--error); }
-        .btn-opcao:disabled { opacity: 0.8; cursor: default; }
-
-        /* PARTE 2: A RESPOSTA (ESCONDIDA INICIALMENTE) */
-        .secao-resposta {
-            background-color: var(--section-answer-bg);
-            padding: 0 40px;
-            max-height: 0; /* Escondido */
-            overflow: hidden;
-            transition: max-height 0.6s ease-out, padding 0.3s ease;
-            border-top: 1px solid transparent;
-        }
-
-        .secao-resposta.aberta {
+        /* --- SEÇÃO 1: ATIVIDADE (ESQUERDA) --- */
+        .secao-atividade {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
             padding: 40px;
-            max-height: 1000px; /* Valor alto para garantir que cabe tudo */
-            border-top: 1px solid #e5e5e5;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
         }
 
-        .titulo-resposta {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .texto-explicacao {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #333;
+        .header-questao {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
-        /* FORMATAÇÃO DE FRAÇÃO VERTICAL */
+        .contador {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .imagem-container {
+            flex-grow: 1; /* Ocupa o espaço disponível */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #fbfbfd;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            padding: 20px;
+        }
+
+        .img-atividade {
+            max-width: 100%;
+            max-height: 300px; /* Limite de altura para não quebrar */
+            object-fit: contain;
+        }
+
+        .enunciado {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .opcoes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-opcao {
+            background-color: var(--bg-app);
+            border: 1px solid transparent;
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .btn-opcao:hover:not(:disabled) {
+            background-color: #e5e5ea;
+            transform: scale(1.02);
+        }
+
+        /* Estados do Botão */
+        .btn-opcao.selecionado { border-color: var(--accent); color: var(--accent); background-color: #f0f8ff; }
+        .btn-opcao.certo { background-color: var(--success); color: white; border-color: var(--success); }
+        .btn-opcao.errado { background-color: var(--error); color: white; border-color: var(--error); }
+        .btn-opcao:disabled { cursor: default; }
+
+        /* --- SEÇÃO 2: RESPOSTA (DIREITA) --- */
+        .secao-resposta {
+            background-color: rgba(255, 255, 255, 0.8); /* Levemente transparente */
+            backdrop-filter: blur(20px); /* Efeito de vidro Apple */
+            border-radius: var(--radius);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Estado inicial vazio */
+        .estado-vazio {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Conteúdo da Resposta (aparece depois) */
+        .conteudo-resposta {
+            display: none; /* Oculto inicialmente */
+            animation: fadeIn 0.5s ease;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .feedback-titulo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-explica {
+            background-color: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            flex-grow: 1;
+            overflow-y: auto; /* Permite rolar se o texto for grande */
+        }
+
+        .titulo-metodo {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .texto-detalhe { font-size: 1rem; line-height: 1.6; margin-bottom: 20px; }
+
+        /* Rodapé com Créditos e Botão Próximo */
+        .rodape-resposta {
+            margin-top: auto;
+        }
+
+        .btn-proximo {
+            width: 100%;
+            background-color: var(--text-primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            margin-bottom: 20px;
+        }
+        .btn-proximo:hover { opacity: 0.9; }
+
+        .creditos {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+            border-top: 1px solid #e5e5ea;
+            padding-top: 15px;
+        }
+
+        /* --- FRAÇÃO VERTICAL (CSS MÁGICO) --- */
         .fracao {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
             vertical-align: middle;
-            margin: 0 4px;
-            font-size: 0.9em;
+            margin: 0 5px;
         }
-        .fracao span.num { border-bottom: 1.5px solid currentColor; padding: 0 3px; display: block; line-height: 1.1; font-weight: bold; }
-        .fracao span.den { padding: 0 3px; display: block; line-height: 1.1; font-weight: bold; }
+        .fracao .num { border-bottom: 1.5px solid currentColor; padding: 0 4px; display: block; line-height: 1; font-weight: 600; font-size: 0.9em; }
+        .fracao .den { padding: 0 4px; display: block; line-height: 1; font-weight: 600; font-size: 0.9em; }
 
-        /* RODAPÉ */
-        footer {
-            text-align: center;
-            margin-top: 60px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* CELULAR */
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            .secao-pergunta, .secao-resposta.aberta { padding: 25px; }
-            .grid-opcoes { grid-template-columns: 1fr; } /* Botões um embaixo do outro no celular */
-            .imagem-contexto { height: 180px; }
+        /* RESPONSIVIDADE (CELULAR) */
+        @media (max-width: 900px) {
+            body { height: auto; overflow-y: auto; display: block; }
+            .app-container { grid-template-columns: 1fr; height: auto; padding: 10px; display: flex; flex-direction: column; }
+            .secao-atividade, .secao-resposta { height: auto; min-height: 400px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Frações no Cotidiano</h1>
-        <p>Aprenda matemática resolvendo problemas reais do dia a dia.</p>
-    </header>
+    <div class="app-container">
+        
+        <section class="secao-atividade">
+            <div class="header-questao">
+                <span class="contador" id="contadorTxt">Questão 1 de 10</span>
+                <div style="font-size: 0.9rem; font-weight: 600;">
+                    <span style="color: var(--success)">✓ <span id="scoreCerto">0</span></span>
+                    <span style="color: var(--text-secondary); margin: 0 8px;">|</span>
+                    <span style="color: var(--error)">✕ <span id="scoreErrado">0</span></span>
+                </div>
+            </div>
 
-    <div class="container" id="containerDinamico">
-        </div>
+            <div class="imagem-container">
+                <img id="imgQuestao" class="img-atividade" src="" alt="Imagem da Atividade">
+            </div>
 
-    <footer>
-        <p>Desenvolvido por Gilberto Fernandes - Matemática<br>[Atividade Professora Simone Vieira]</p>
-    </footer>
+            <div class="enunciado" id="textoEnunciado">Carregando...</div>
+
+            <div class="opcoes-grid" id="containerOpcoes">
+                </div>
+        </section>
+
+        <section class="secao-resposta">
+            
+            <div id="vazioPlaceholder" class="estado-vazio">
+                <p>Selecione uma opção ao lado<br>para ver a explicação.</p>
+            </div>
+
+            <div id="conteudoResposta" class="conteudo-resposta">
+                <div class="feedback-titulo" id="tituloFeedback">
+                    </div>
+
+                <div class="card-explica">
+                    <div class="titulo-metodo">EXPLICAÇÃO PASSO A PASSO</div>
+                    <div class="texto-detalhe" id="textoExplicacao"></div>
+                </div>
+
+                <div class="rodape-resposta">
+                    <button class="btn-proximo" onclick="proximaQuestao()">Próxima Questão →</button>
+                    <div class="creditos">
+                        Desenvolvido por Gilberto Fernandes - Matemática<br>
+                        [Atividade Professora Simone Vieira]
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
 
     <script>
-        // =========================================================================
-        // BANCO DE DADOS (10 QUESTÕES - DO BÁSICO AO AVANÇADO)
-        // =========================================================================
+        // ==========================================================
+        // DADOS DAS 10 QUESTÕES (Progressivas e Cotidianas)
+        // ==========================================================
         
-        // Função ajudante para escrever fração
+        // Função auxiliar para desenhar fração: f(numerador, denominador)
         const f = (n, d) => `<div class='fracao'><span class='num'>${n}</span><span class='den'>${d}</span></div>`;
 
+        // REGRAS:
+        // Use imagens diferentes se tiver. Se não, repetimos as que você tem.
+        const bancoImagens = [
+            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png",
+            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png",
+            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img3.png"
+        ];
+
         const questoes = [
-            // --- NÍVEL 1: CONCEITOS BÁSICOS ---
+            // --- NÍVEL 1: BÁSICO ---
             {
-                id: 1,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png", // Use suas imagens aqui
-                pergunta: "Imagine uma pizza cortada em 4 fatias iguais. Se você comer 1 fatia, qual fração representa o que você comeu?",
-                opcoes: [f(1,2), f(1,4), f(3,4), f(4,4)],
-                correta: 1, // 0 é a primeira, 1 é a segunda...
-                explica: "O número de baixo (Denominador) é o total de fatias (4). O número de cima (Numerador) é quantas você pegou (1). Logo, " + f(1,4) + "."
+                pergunta: "Para o lanche, uma pizza foi cortada em 8 fatias iguais. Se você comer 3 fatias, que fração da pizza você comeu?",
+                img: bancoImagens[0],
+                opcoes: [f(1,3), f(3,8), f(5,8), f(8,3)],
+                correta: 1,
+                explica: `<strong>Conceito de Fração:</strong><br>O número de baixo (Denominador) representa o total de pedaços: 8.<br>O número de cima (Numerador) representa quantos pedaços consideramos: 3.<br><br>Resposta: ${f(3,8)}.`
             },
             {
-                id: 2,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png", 
-                pergunta: "Uma barra de chocolate tem 8 quadradinhos. João comeu 4 quadradinhos. Isso é o mesmo que comer:",
-                opcoes: ["A barra toda", "Um terço da barra", "Metade da barra", "Nenhuma das opções"],
+                pergunta: "Um tanque de gasolina tem capacidade marcada em 4 partes. O ponteiro está na primeira marca. Qual a fração?",
+                img: bancoImagens[1],
+                opcoes: [f(1,4), f(1,2), f(3,4), f(4,4)],
+                correta: 0,
+                explica: `Se o total é dividido em 4 partes e temos apenas 1 parte preenchida, a fração é um quarto (${f(1,4)}).`
+            },
+            {
+                pergunta: "João tem uma barra de chocolate com 10 quadradinhos. Ele deu 5 para Maria. Quanto sobrou para João?",
+                img: bancoImagens[2],
+                opcoes: [f(2,10), f(10,5), f(1,2), f(3,10)],
                 correta: 2,
-                explica: "João comeu " + f(4,8) + ". Se simplificarmos dividindo em cima e em baixo por 4, temos " + f(1,2) + ", ou seja, a metade."
+                explica: `Ele tinha 10, deu 5. Sobraram 5.<br>A fração é ${f(5,10)}. Simplificando (dividindo em cima e embaixo por 5), temos a metade: ${f(1,2)}.`
+            },
+            
+            // --- NÍVEL 2: SOMA/SUBTRAÇÃO BASES IGUAIS ---
+            {
+                pergunta: "Ana pintou ${f(2,7)} de uma parede de manhã e ${f(3,7)} de tarde. Quanto da parede já está pintada?",
+                img: bancoImagens[0],
+                opcoes: [f(5,14), f(6,7), f(5,7), f(1,7)],
+                correta: 2,
+                explica: `<strong>Denominadores Iguais:</strong><br>Mantemos o número de baixo (7) e somamos os de cima.<br>${f(2,7)} + ${f(3,7)} = ${f(5,7)}.`
             },
             {
-                id: 3,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img3.png",
-                pergunta: "O marcador de combustível do carro mostra que o tanque está cheio até a marca de " + f(3,4) + ". Quanto falta para completar o tanque (" + f(4,4) + ")?",
-                opcoes: [f(1,4), f(1,2), f(2,4), f(3,4)],
+                pergunta: "Uma garrafa de suco estava com ${f(5,6)} de sua capacidade. Pedro bebeu ${f(1,6)}. Quanto restou?",
+                img: bancoImagens[1],
+                opcoes: [f(4,6), f(6,6), f(4,12), f(5,6)],
                 correta: 0,
-                explica: "Se o total é 4 partes e já temos 3, falta apenas 1 parte. A conta é " + f(4,4) + " - " + f(3,4) + " = " + f(1,4) + "."
+                explica: `<strong>Subtração Simples:</strong><br>Mantemos o 6. Fazemos 5 - 1 = 4.<br>Resultado: ${f(4,6)} (que simplificando seria ${f(2,3)}).`
             },
 
-            // --- NÍVEL 2: SOMA/SUBTRAÇÃO (DENOMINADORES IGUAIS) ---
+            // --- NÍVEL 3: BASES DIFERENTES (BORBOLETA/MMC) ---
             {
-                id: 4,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png", 
-                pergunta: "Ana comeu " + f(2,8) + " de um bolo de manhã e mais " + f(3,8) + " à tarde. Quanto do bolo ela comeu no total?",
-                opcoes: [f(5,16), f(5,8), f(6,8), f(1,8)],
+                pergunta: "Você tem ${f(1,2)} xícara de farinha e adiciona mais ${f(1,3)} de xícara. Qual o total de farinha?",
+                img: bancoImagens[2],
+                opcoes: [f(2,5), f(5,6), f(1,6), f(2,6)],
                 correta: 1,
-                explica: "Como o bolo foi cortado em 8 pedaços nas duas vezes (denominadores iguais), basta somar os pedaços de cima: 2 + 3 = 5. O resultado é " + f(5,8) + "."
+                explica: `<strong>Método da Borboleta:</strong><br>1. Multiplica cruzado: (1×3) + (2×1) = 3 + 2 = 5 (Numerador).<br>2. Multiplica os de baixo: 2×3 = 6 (Denominador).<br><br>Resultado: ${f(5,6)}.`
             },
             {
-                id: 5,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png", 
-                pergunta: "Uma jarra de suco estava com " + f(4,5) + " da capacidade. Pedro bebeu " + f(1,5) + ". Quanto sobrou na jarra?",
-                opcoes: [f(3,5), f(5,5), f(3,10), f(2,5)],
+                pergunta: "Em uma corrida, Maria completou ${f(3,4)} do percurso e parou. João correu apenas ${f(1,2)}. Quanto Maria correu a mais que João?",
+                img: bancoImagens[0],
+                opcoes: [f(1,4), f(2,4), f(3,4), f(1,2)],
                 correta: 0,
-                explica: "Denominadores iguais (5). Mantemos o 5 em baixo e subtraímos em cima: 4 - 1 = 3. Sobrou " + f(3,5) + "."
+                explica: `Conta: ${f(3,4)} - ${f(1,2)}.<br>Sabemos que ${f(1,2)} é igual a ${f(2,4)}.<br>Logo: ${f(3,4)} - ${f(2,4)} = ${f(1,4)}.`
             },
             {
-                id: 6,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img3.png", 
-                pergunta: "Para fazer um trabalho escolar, a turma usou " + f(2,6) + " de uma cartolina azul e " + f(4,6) + " de uma cartolina vermelha. Quanto de cartolina foi usado no total?",
-                opcoes: [f(6,12), f(6,6) + " (Uma inteira)", f(2,6), f(4,6)],
+                pergunta: "Soma de frações: Quanto é ${f(2,5)} + ${f(1,4)}?",
+                img: bancoImagens[1],
+                opcoes: [f(3,9), f(13,20), f(8,20), f(3,20)],
                 correta: 1,
-                explica: "Somando " + f(2,6) + " + " + f(4,6) + " temos " + f(6,6) + ". Quando o número de cima é igual ao de baixo, temos um inteiro (1 cartolina completa)."
+                explica: `<strong>Borboleta:</strong><br>Asas: (2×4)=8 e (5×1)=5. Soma: 8+5=13.<br>Corpo: 5×4=20.<br>Resultado: ${f(13,20)}.`
             },
-
-            // --- NÍVEL 3: SOMA/SUBTRAÇÃO (DENOMINADORES DIFERENTES) ---
             {
-                id: 7,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png", 
-                pergunta: "Você tem uma moeda de 50 centavos (" + f(1,2) + " de real) e uma moeda de 25 centavos (" + f(1,4) + " de real). Qual a fração total de moedas?",
-                opcoes: [f(2,6), f(3,4), f(2,4), f(1,6)],
+                pergunta: "Um pedreiro usou ${f(1,3)} de um saco de cimento na segunda e ${f(2,5)} na terça. Quanto usou no total?",
+                img: bancoImagens[2],
+                opcoes: [f(3,8), f(11,15), f(2,15), f(3,15)],
                 correta: 1,
-                explica: "Precisamos igualar os denominadores. Sabemos que " + f(1,2) + " é o mesmo que " + f(2,4) + ". <br>Agora somamos: " + f(2,4) + " + " + f(1,4) + " = " + f(3,4) + "."
+                explica: `<strong>MMC de 3 e 5 é 15.</strong><br>${f(1,3)} vira ${f(5,15)}.<br>${f(2,5)} vira ${f(6,15)}.<br>Somando: 5+6 = 11. Resultado: ${f(11,15)}.`
             },
             {
-                id: 8,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png", 
-                pergunta: "Uma receita pede " + f(1,2) + " xícara de açúcar, mas você já colocou " + f(1,3) + ". Quanto ainda falta colocar?",
-                opcoes: [f(1,6), f(1,5), f(2,5), f(2,6)],
-                correta: 0,
-                explica: "Conta: " + f(1,2) + " - " + f(1,3) + ". <br><strong>Método Borboleta:</strong> (1×3) - (2×1) = 3 - 2 = 1 (Numerador). <br>Em baixo: 2×3 = 6 (Denominador). <br>Resultado: " + f(1,6) + "."
-            },
-            {
-                id: 9,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img3.png", 
-                pergunta: "João pintou " + f(2,3) + " de um muro no sábado e " + f(1,4) + " no domingo. Quanto do muro já está pintado?",
-                opcoes: [f(3,7), f(11,12), f(8,12), f(9,12)],
-                correta: 1,
-                explica: "Denominadores diferentes (3 e 4). MMC é 12. <br>Fração 1 vira " + f(8,12) + ". Fração 2 vira " + f(3,12) + ". <br>Soma: " + f(8,12) + " + " + f(3,12) + " = " + f(11,12) + "."
-            },
-            {
-                id: 10,
-                imagem: "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png", 
-                pergunta: "Desafio final: Você correu " + f(1,2) + " km de manhã e " + f(2,5) + " km à tarde. Qual a fração total percorrida?",
-                opcoes: [f(3,7), f(9,10), f(1,10), f(5,10)],
-                correta: 1,
-                explica: "Borboleta: Asas (1×5) e (2×2) = 5 + 4 = 9. <br>Corpo (Denominadores): 2×5 = 10. <br>Resultado final: " + f(9,10) + " km."
+                pergunta: "Desafio Final: ${f(7,10)} - ${f(1,2)} =",
+                img: bancoImagens[0],
+                opcoes: [f(6,8), f(2,10), f(5,10), f(1,5)],
+                correta: 1, // 2/10 é a correta (ou 1/5)
+                explica: `O MMC de 10 e 2 é 10.<br>${f(1,2)} vira ${f(5,10)}.<br>Agora: ${f(7,10)} - ${f(5,10)} = ${f(2,10)}.<br>(Obs: ${f(2,10)} simplificado é igual a ${f(1,5)}).`
             }
         ];
 
-        // =========================================================================
-        // GERAÇÃO AUTOMÁTICA DO SITE
-        // =========================================================================
+        // ==========================================================
+        // LÓGICA DO APP
+        // ==========================================================
+        
+        let indiceAtual = 0;
+        let scoreC = 0;
+        let scoreE = 0;
 
-        const container = document.getElementById('containerDinamico');
-
-        questoes.forEach((q, index) => {
-            // Cria o HTML de cada cartão
-            const cardHTML = `
-                <div class="card-atividade" id="card-${index}">
-                    
-                    <div class="secao-pergunta">
-                        <img src="${q.imagem}" class="imagem-contexto" alt="Imagem da questão">
-                        <div style="margin-bottom: 15px; color: #86868b; text-transform: uppercase; font-size: 0.8rem; font-weight: bold; letter-spacing: 1px;">
-                            Questão ${index + 1} de ${questoes.length}
-                        </div>
-                        <p class="enunciado">${q.pergunta}</p>
-                        
-                        <div class="grid-opcoes">
-                            ${q.opcoes.map((opt, i) => `
-                                <button class="btn-opcao" onclick="responder(${index}, ${i}, this)">
-                                    ${opt}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="secao-resposta" id="resp-${index}">
-                        <div class="titulo-resposta">Explicação Detalhada</div>
-                        <div class="texto-explicacao">${q.explica}</div>
-                    </div>
-                    
-                </div>
-            `;
-            container.innerHTML += cardHTML;
-        });
-
-        // Lógica de resposta
-        function responder(indexQuestao, indexOpcao, botaoClicado) {
-            const dados = questoes[indexQuestao];
-            const divResposta = document.getElementById(`resp-${indexQuestao}`);
-            const card = document.getElementById(`card-${indexQuestao}`);
+        function carregarQuestao() {
+            // 1. Reseta visual
+            document.getElementById('vazioPlaceholder').style.display = 'flex';
+            document.getElementById('conteudoResposta').style.display = 'none';
+            document.getElementById('containerOpcoes').innerHTML = '';
             
-            // Busca todos os botões dessa questão específica
-            const botoes = card.querySelectorAll('.btn-opcao');
+            // 2. Carrega dados
+            const q = questoes[indiceAtual];
+            document.getElementById('contadorTxt').innerText = `QUESTÃO ${indiceAtual + 1} DE ${questoes.length}`;
+            document.getElementById('textoEnunciado').innerHTML = q.pergunta; // innerHTML para ler as frações no texto
+            document.getElementById('imgQuestao').src = q.img;
 
-            // Trava os botões para não clicar de novo
-            botoes.forEach(btn => btn.disabled = true);
+            // 3. Cria botões
+            q.opcoes.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-opcao';
+                btn.innerHTML = opt;
+                btn.onclick = () => verificar(index, btn);
+                document.getElementById('containerOpcoes').appendChild(btn);
+            });
+        }
 
-            if (indexOpcao === dados.correta) {
-                // ACERTOU
-                botaoClicado.classList.add('certo');
-                // Adiciona um ícone de verificado
-                botaoClicado.innerHTML += ' <span style="margin-left:10px">✅</span>';
+        function verificar(idxEscolhido, btnClicado) {
+            const q = questoes[indiceAtual];
+            const todosBotoes = document.querySelectorAll('.btn-opcao');
+            
+            // Bloqueia cliques
+            todosBotoes.forEach(b => b.disabled = true);
+
+            // Prepara área de resposta
+            const titulo = document.getElementById('tituloFeedback');
+            const texto = document.getElementById('textoExplicacao');
+            
+            document.getElementById('vazioPlaceholder').style.display = 'none';
+            document.getElementById('conteudoResposta').style.display = 'flex';
+
+            if (idxEscolhido === q.correta) {
+                // ACERTO
+                scoreC++;
+                document.getElementById('scoreCerto').innerText = scoreC;
+                btnClicado.classList.add('certo');
+                titulo.innerHTML = "<span style='color:var(--success); font-size:2rem'>✓</span> Excelente!";
             } else {
-                // ERROU
-                botaoClicado.classList.add('errado');
-                // Mostra a correta
-                botoes[dados.correta].classList.add('certo');
+                // ERRO
+                scoreE++;
+                document.getElementById('scoreErrado').innerText = scoreE;
+                btnClicado.classList.add('errado');
+                todosBotoes[q.correta].classList.add('certo'); // Mostra a certa
+                titulo.innerHTML = "<span style='color:var(--error); font-size:2rem'>✕</span> Ops, não foi dessa vez.";
             }
 
-            // Abre a gaveta da resposta (Slide Down)
-            divResposta.classList.add('aberta');
+            texto.innerHTML = q.explica;
         }
+
+        function proximaQuestao() {
+            if (indiceAtual < questoes.length - 1) {
+                indiceAtual++;
+                carregarQuestao();
+            } else {
+                alert(`Parabéns! Você concluiu as 10 questões.\nAcertos: ${scoreC}\nErros: ${scoreE}`);
+                indiceAtual = 0;
+                scoreC = 0; scoreE = 0;
+                document.getElementById('scoreCerto').innerText = 0;
+                document.getElementById('scoreErrado').innerText = 0;
+                carregarQuestao();
+            }
+        }
+
+        // Iniciar
+        carregarQuestao();
 
     </script>
 </body>
