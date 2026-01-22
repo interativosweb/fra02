@@ -5,130 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atividade de Matemática</title>
     <style>
-        /* CONFIGURAÇÃO GERAL (RESET) */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        /* CONFIGURAÇÃO GERAL */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { height: 100vh; display: flex; background-color: #f4f4f9; overflow: hidden; }
 
-        body {
-            height: 100vh; /* Ocupa a altura total da tela */
-            display: flex; /* Divide a tela lado a lado */
-            background-color: #f4f4f9;
-            overflow: hidden; /* Evita barras de rolagem */
-        }
-
-        /* LADO ESQUERDO - ONDE FICA A IMAGEM */
+        /* LADO ESQUERDO (IMAGEM) */
         .container-imagem {
-            width: 50%;
-            height: 100%;
-            background-color: #ffffff; /* Fundo branco puro */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Sem borda e sem sombra, conforme seu pedido */
+            width: 50%; height: 100%; background-color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .imagem-atividade {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain; /* Garante que a imagem não distorça */
-            transition: opacity 0.3s ease; /* Suavidade ao trocar a foto */
+            max-width: 90%; max-height: 90%; object-fit: contain;
+            transition: opacity 0.3s ease;
         }
 
-        /* LADO DIREITO - ONDE FICAM AS OPÇÕES */
+        /* LADO DIREITO (OPÇÕES) */
         .container-opcoes {
-            width: 50%;
-            height: 100%;
-            background-color: #2c3e50; /* Azul escuro elegante */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
+            width: 50%; height: 100%; background-color: #2c3e50;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px;
         }
 
-        h1 {
-            color: white;
-            margin-bottom: 40px;
-            font-weight: 300;
-            text-align: center;
-        }
+        h1 { color: white; margin-bottom: 40px; font-weight: 300; text-align: center; }
 
-        /* ESTILO DOS BOTÕES */
+        /* BOTÕES */
         .btn-opcao {
-            background-color: rgba(255, 255, 255, 0.1); /* Transparente */
-            color: white;
+            background-color: rgba(255, 255, 255, 0.1); color: white;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 15px 20px;
-            margin: 10px 0;
-            width: 80%; /* Largura do botão */
-            max-width: 400px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            text-align: center;
+            padding: 15px 20px; margin: 10px 0; width: 80%; max-width: 400px;
+            border-radius: 8px; cursor: pointer; text-align: center;
             transition: all 0.3s ease;
         }
+        .btn-opcao:hover { background-color: #ffffff; color: #2c3e50; transform: scale(1.02); }
 
-        .btn-opcao:hover {
-            background-color: #ffffff;
-            color: #2c3e50;
-            transform: scale(1.02); /* Aumenta levemente ao passar o mouse */
-        }
-
-        /* AJUSTE PARA CELULAR (Fica um em cima do outro) */
+        /* CELULAR */
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                overflow-y: auto; /* Permite rolar no celular */
-            }
-            .container-imagem {
-                width: 100%;
-                height: 50vh;
-                padding: 20px;
-            }
-            .container-opcoes {
-                width: 100%;
-                min-height: 50vh;
-                padding: 20px;
-            }
+            body { flex-direction: column; overflow-y: auto; }
+            .container-imagem, .container-opcoes { width: 100%; height: 50vh; padding: 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container-imagem">
-        <img id="imagemPrincipal" class="imagem-atividade" src="Site_Fracoes/foto1.jpg" alt="Imagem da Atividade">
+        <img id="imagemPrincipal" class="imagem-atividade" src="Site_Fracoes/img3.png" alt="Imagem da Atividade">
     </div>
 
     <div class="container-opcoes">
         <h1>Escolha uma opção:</h1>
         
-        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto1.jpg')">
-            Visualizar Imagem 1
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/img3.png')">
+            Ver Imagem 3 (Principal)
         </div>
 
-        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto2.jpg')">
-            Visualizar Imagem 2
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/img2.png')">
+            Ver Imagem 2
         </div>
 
-        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/foto3.jpg')">
-            Visualizar Imagem 3
+        <div class="btn-opcao" onclick="mudarImagem('Site_Fracoes/img1.png')">
+            Ver Imagem 1
         </div>
-
-        </div>
+    </div>
 
     <script>
-        // Função que faz a mágica de trocar a imagem
         function mudarImagem(novoCaminho) {
             var imagem = document.getElementById('imagemPrincipal');
-            
-            // Um pequeno efeito de "piscar" para suavizar a troca
             imagem.style.opacity = 0;
-            
             setTimeout(function() {
                 imagem.src = novoCaminho;
                 imagem.style.opacity = 1;
