@@ -13,7 +13,7 @@
             --accent: #0071e3;        /* Azul Apple */
             --success: #34c759;       /* Verde Sucesso */
             --error: #ff3b30;         /* Vermelho Erro */
-            --radius: 16px;           /* Arredondamento dos elementos */
+            --radius: 16px;           /* Arredondamento */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -30,44 +30,46 @@
         /* --- CONTAINER PRINCIPAL --- */
         .app-container {
             width: 100%;
-            max-width: 1100px; /* Um pouco mais estreito para ficar elegante */
+            max-width: 1100px;
             display: flex;
             flex-direction: column;
             gap: 40px;
         }
 
-        /* --- PARTE 1: A PERGUNTA (Sem bloco de fundo) --- */
+        /* --- PARTE 1: A PERGUNTA --- */
         .secao-pergunta {
-            /* Removido fundo branco e sombra */
             background-color: transparent;
             box-shadow: none;
             padding: 0 0 40px 0;
-            border-bottom: 1px solid #e5e5e5; /* Apenas uma linha sutil separando */
+            border-bottom: 1px solid #e5e5e5;
             
             display: flex;
             gap: 50px;
-            align-items: flex-start;
+            align-items: center; /* Centraliza verticalmente */
             min-height: 350px;
         }
 
-        /* Coluna da Esquerda (Imagem) */
+        /* CORREÇÃO AQUI: 
+           Removi background-color e box-shadow.
+           Agora é totalmente transparente.
+        */
         .coluna-imagem {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #ffffff; /* Fundo branco apenas para a imagem */
-            border-radius: var(--radius);
-            padding: 30px;
-            height: auto;
-            align-self: stretch; /* Estica a altura */
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* Sombra levíssima só no elemento */
+            background-color: transparent; /* Fundo transparente */
+            border: none;
+            box-shadow: none;
+            padding: 10px;
         }
 
         .img-atividade {
             max-width: 100%;
-            max-height: 300px;
+            max-height: 350px;
             object-fit: contain;
+            /* Garante que a imagem não tenha bordas estranhas */
+            display: block; 
         }
 
         /* Coluna da Direita (Texto + Opções) */
@@ -76,7 +78,6 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-top: 20px;
         }
 
         /* Placar */
@@ -107,7 +108,7 @@
         }
 
         .btn-opcao {
-            background-color: #ffffff; /* Botões brancos para contrastar com o fundo cinza */
+            background-color: #ffffff; /* Botão branco */
             border: 1px solid transparent;
             border-radius: 14px;
             padding: 20px;
@@ -119,11 +120,11 @@
             align-items: center;
             justify-content: center;
             min-height: 80px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* Sombra imperceptível para dar volume */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); /* Sombra quase invisível */
         }
 
         .btn-opcao:hover:not(:disabled) {
-            transform: translateY(-2px); /* Leve subida ao passar o mouse */
+            transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
@@ -132,10 +133,9 @@
         .btn-opcao.errado { background-color: var(--error); color: white; }
         .btn-opcao:disabled { cursor: default; opacity: 0.8; }
 
-        /* --- PARTE 2: A RESPOSTA (Sem bloco de fundo) --- */
+        /* --- PARTE 2: A RESPOSTA --- */
         .secao-resposta {
             display: none;
-            /* Removido fundo e sombra */
             background-color: transparent;
             box-shadow: none;
             padding: 20px 0;
@@ -156,7 +156,7 @@
         .container-explica {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 50px; /* Mais espaço entre as colunas */
+            gap: 50px;
         }
 
         .bloco-metodo h3 {
@@ -174,7 +174,7 @@
             margin-top: 50px;
             width: 100%;
             padding: 20px;
-            background-color: var(--text-main); /* Botão preto minimalista */
+            background-color: var(--text-main);
             color: white;
             border: none;
             border-radius: 16px;
@@ -208,7 +208,7 @@
         /* RESPONSIVIDADE */
         @media (max-width: 900px) {
             .secao-pergunta { flex-direction: column; gap: 30px; }
-            .coluna-imagem { width: 100%; padding: 20px; }
+            .coluna-imagem { width: 100%; padding: 0; }
             .img-atividade { max-height: 200px; }
             .container-explica { grid-template-columns: 1fr; gap: 30px; }
         }
@@ -274,12 +274,12 @@
 
     <script>
         // ==========================================================
-        // CONFIGURAÇÃO DAS QUESTÕES (BANCO DE DADOS)
+        // CONFIGURAÇÃO DAS QUESTÕES
         // ==========================================================
         
         const f = (n, d) => `<div class='fracao'><span class='num'>${n}</span><span class='den'>${d}</span></div>`;
 
-        // LINKS REAIS DAS SUAS IMAGENS
+        // LINKS REAIS
         const imagens = [
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png",
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png",
@@ -311,14 +311,14 @@
                 borboleta: "Asas: (3×2)=6 e (4×1)=4. Subtração: 6-4=2.<br>Corpo: 4×2=8. Resultado: " + f(2,8) + " (que simplificado é " + f(1,4) + ")",
                 mmc: "MMC de 4 e 2 é 4.<br>Mantemos " + f(3,4) + ".<br>A fração " + f(1,2) + " vira " + f(2,4) + ".<br>Subtraindo: 3 - 2 = 1. Resultado: " + f(1,4)
             },
-            // Adicione mais questões aqui...
+            // Você pode copiar e colar mais questões aqui...
             {
-                 pergunta: "Em uma receita vai " + f(2,5) + " de açúcar e " + f(1,5) + " de farinha. Qual o total de ingredientes secos?",
-                 img: imagens[0],
-                 opcoes: [f(3,10), f(3,5), f(2,5), f(2,10)],
-                 correta: 1,
-                 borboleta: "Quando os denominadores (números de baixo) são iguais, não precisamos da borboleta completa. Apenas somamos os de cima: 2+1=3. O 5 se mantém.",
-                 mmc: "Denominadores iguais não precisam de MMC. Soma direta: " + f(2,5) + "+" + f(1,5) + " = " + f(3,5)
+                pergunta: "Em uma receita vai " + f(2,5) + " de açúcar e " + f(1,5) + " de farinha. Qual o total?",
+                img: imagens[0],
+                opcoes: [f(3,10), f(3,5), f(2,5), f(2,10)],
+                correta: 1,
+                borboleta: "Denominadores iguais (5). Apenas somamos os de cima: 2+1=3. O 5 se mantém.",
+                mmc: "Denominadores iguais não precisam de MMC. Soma direta: " + f(2,5) + "+" + f(1,5) + " = " + f(3,5)
             }
         ];
 
