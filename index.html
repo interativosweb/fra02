@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matemática Interativa</title>
     <style>
-        /* --- ESTILO APPLE CLEAN --- */
+        /* --- ESTILO ULTRA CLEAN (APPLE) --- */
         :root {
-            --bg-page: #f5f5f7;       /* Fundo da página */
-            --bg-card: #ffffff;       /* Fundo branco dos blocos */
+            --bg-page: #f5f5f7;       /* Fundo geral cinza claro */
             --text-main: #1d1d1f;
             --text-secondary: #86868b;
             --accent: #0071e3;        /* Azul Apple */
             --success: #34c759;       /* Verde Sucesso */
             --error: #ff3b30;         /* Vermelho Erro */
-            --radius: 20px;           /* Arredondamento */
+            --radius: 16px;           /* Arredondamento dos elementos */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -24,78 +23,78 @@
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            justify-content: center;
+            padding: 40px 20px;
         }
 
         /* --- CONTAINER PRINCIPAL --- */
         .app-container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1100px; /* Um pouco mais estreito para ficar elegante */
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 40px;
         }
 
-        /* --- PARTE 1: A PERGUNTA (Bloco Branco) --- */
+        /* --- PARTE 1: A PERGUNTA (Sem bloco de fundo) --- */
         .secao-pergunta {
-            background-color: var(--bg-card);
-            border-radius: var(--radius);
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            display: flex; /* Divide em colunas */
-            gap: 40px;
-            align-items: center;
-            min-height: 400px;
+            /* Removido fundo branco e sombra */
+            background-color: transparent;
+            box-shadow: none;
+            padding: 0 0 40px 0;
+            border-bottom: 1px solid #e5e5e5; /* Apenas uma linha sutil separando */
+            
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+            min-height: 350px;
         }
 
         /* Coluna da Esquerda (Imagem) */
         .coluna-imagem {
-            flex: 1; /* Ocupa 1 parte */
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fbfbfd;
-            border-radius: 16px;
-            padding: 20px;
-            height: 100%;
-            min-height: 350px;
+            background-color: #ffffff; /* Fundo branco apenas para a imagem */
+            border-radius: var(--radius);
+            padding: 30px;
+            height: auto;
+            align-self: stretch; /* Estica a altura */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* Sombra levíssima só no elemento */
         }
 
         .img-atividade {
             max-width: 100%;
-            max-height: 350px;
+            max-height: 300px;
             object-fit: contain;
-            mix-blend-mode: multiply; /* Tenta integrar a imagem ao fundo */
         }
 
         /* Coluna da Direita (Texto + Opções) */
         .coluna-conteudo {
-            flex: 1.2; /* Ocupa um pouco mais de espaço que a imagem */
+            flex: 1.3;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding-top: 20px;
         }
 
-        /* Placar e Contador */
+        /* Placar */
         .topo-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 0.85rem;
+            margin-bottom: 25px;
+            font-size: 0.8rem;
             color: var(--text-secondary);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
         }
 
         .enunciado {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
             line-height: 1.3;
             color: var(--text-main);
         }
@@ -103,12 +102,12 @@
         /* Grid de Opções */
         .grid-opcoes {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 colunas de botões */
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
 
         .btn-opcao {
-            background-color: var(--bg-page);
+            background-color: #ffffff; /* Botões brancos para contrastar com o fundo cinza */
             border: 1px solid transparent;
             border-radius: 14px;
             padding: 20px;
@@ -120,35 +119,35 @@
             align-items: center;
             justify-content: center;
             min-height: 80px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02); /* Sombra imperceptível para dar volume */
         }
 
         .btn-opcao:hover:not(:disabled) {
-            background-color: #e5e5ea;
-            transform: scale(1.02);
+            transform: translateY(-2px); /* Leve subida ao passar o mouse */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        /* Estados (Certo/Errado) */
-        .btn-opcao.certo { background-color: var(--success); color: white; border-color: var(--success); }
-        .btn-opcao.errado { background-color: var(--error); color: white; border-color: var(--error); }
-        .btn-opcao:disabled { cursor: default; opacity: 0.7; }
+        /* Estados */
+        .btn-opcao.certo { background-color: var(--success); color: white; }
+        .btn-opcao.errado { background-color: var(--error); color: white; }
+        .btn-opcao:disabled { cursor: default; opacity: 0.8; }
 
-        /* --- PARTE 2: A RESPOSTA (Bloco Cinza/Branco) --- */
+        /* --- PARTE 2: A RESPOSTA (Sem bloco de fundo) --- */
         .secao-resposta {
-            display: none; /* Inicialmente oculto */
-            background-color: #ffffff; /* Fundo branco também para manter padrão */
-            border-radius: var(--radius);
-            padding: 40px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border-top: 4px solid var(--accent); /* Detalhe azul no topo */
-            animation: slideUp 0.5s ease;
+            display: none;
+            /* Removido fundo e sombra */
+            background-color: transparent;
+            box-shadow: none;
+            padding: 20px 0;
+            animation: fadeUp 0.6s ease;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .header-resposta {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             gap: 15px;
         }
         
@@ -157,42 +156,42 @@
         .container-explica {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 50px; /* Mais espaço entre as colunas */
         }
 
         .bloco-metodo h3 {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             color: var(--text-secondary);
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            font-weight: 700;
         }
 
-        .texto-explica { font-size: 1.1rem; line-height: 1.6; color: #333; }
+        .texto-explica { font-size: 1.1rem; line-height: 1.7; color: #333; }
 
         .btn-proximo {
-            margin-top: 40px;
+            margin-top: 50px;
             width: 100%;
-            padding: 18px;
-            background-color: var(--text-main);
+            padding: 20px;
+            background-color: var(--text-main); /* Botão preto minimalista */
             color: white;
             border: none;
             border-radius: 16px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.2s;
         }
-        .btn-proximo:hover { opacity: 0.9; }
+        .btn-proximo:hover { transform: scale(1.01); background-color: #000; }
 
-        /* Rodapé */
         .rodape {
-            margin-top: 20px;
+            margin-top: 40px;
             text-align: center;
             font-size: 0.8rem;
             color: var(--text-secondary);
+            border-top: 1px solid #e5e5e5;
+            padding-top: 20px;
         }
 
         /* CSS Fração Vertical */
@@ -206,13 +205,12 @@
         .fracao .num { border-bottom: 2px solid currentColor; padding: 0 4px; display: block; line-height: 1; font-weight: bold; font-size: 0.9em; }
         .fracao .den { padding: 0 4px; display: block; line-height: 1; font-weight: bold; font-size: 0.9em; }
 
-        /* RESPONSIVIDADE (CELULAR) */
+        /* RESPONSIVIDADE */
         @media (max-width: 900px) {
-            .secao-pergunta { flex-direction: column; padding: 20px; gap: 20px; }
-            .coluna-imagem, .coluna-conteudo { width: 100%; }
+            .secao-pergunta { flex-direction: column; gap: 30px; }
+            .coluna-imagem { width: 100%; padding: 20px; }
             .img-atividade { max-height: 200px; }
-            .container-explica { grid-template-columns: 1fr; gap: 20px; }
-            .enunciado { font-size: 1.3rem; text-align: center; }
+            .container-explica { grid-template-columns: 1fr; gap: 30px; }
         }
     </style>
 </head>
@@ -232,7 +230,7 @@
                     <span id="contadorQ">QUESTÃO 1/10</span>
                     <div>
                         <span style="color:var(--success)">ACERTOS: <b id="scoreC">0</b></span>
-                        <span style="margin:0 8px">|</span>
+                        <span style="margin:0 10px; opacity:0.3">|</span>
                         <span style="color:var(--error)">ERROS: <b id="scoreE">0</b></span>
                     </div>
                 </div>
@@ -250,7 +248,7 @@
         <section class="secao-resposta" id="areaResposta">
             
             <div class="header-resposta">
-                <div id="iconeFeedback" style="font-size: 2.5rem;"></div>
+                <div id="iconeFeedback" style="font-size: 3rem;"></div>
                 <div class="titulo-feedback" id="tituloFeedback"></div>
             </div>
 
@@ -276,12 +274,12 @@
 
     <script>
         // ==========================================================
-        // CONFIGURAÇÃO DAS QUESTÕES
+        // CONFIGURAÇÃO DAS QUESTÕES (BANCO DE DADOS)
         // ==========================================================
         
         const f = (n, d) => `<div class='fracao'><span class='num'>${n}</span><span class='den'>${d}</span></div>`;
 
-        // LINKS DAS IMAGENS (Substitua pelos seus se precisar)
+        // LINKS REAIS DAS SUAS IMAGENS
         const imagens = [
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png",
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png",
@@ -294,38 +292,38 @@
                 img: imagens[0],
                 opcoes: [f(1,3), f(3,8), f(5,8), f(8,3)],
                 correta: 1,
-                borboleta: "Conceito Básico: Parte (3) sobre o Todo (8). Não aplicamos Borboleta aqui, apenas a definição.",
-                mmc: "Conceito Básico: A fração é simplesmente o número de partes tomadas sobre o total de divisões."
+                borboleta: "Conceito Básico: O número total de fatias (8) é o denominador. O número de fatias comidas (3) é o numerador.",
+                mmc: "Não se aplica cálculo aqui. A representação direta é a parte pelo todo: " + f(3,8) + "."
             },
             {
-                pergunta: "Qual o resultado de " + f(1,2) + " + " + f(1,3) + "?",
+                pergunta: "Quanto é a soma: " + f(1,2) + " + " + f(1,3) + "?",
                 img: imagens[1],
                 opcoes: [f(2,5), f(1,5), f(5,6), f(1,6)],
                 correta: 2,
-                borboleta: "Asas: (1×3)=3 e (2×1)=2. Soma: 3+2=5.<br>Corpo: 2×3=6.<br>Resultado: " + f(5,6),
-                mmc: "MMC de 2 e 3 é 6.<br>Fração 1: " + f(3,6) + ". Fração 2: " + f(2,6) + ".<br>Soma: " + f(5,6)
+                borboleta: "Multiplicação cruzada (asas): (1×3)=3 e (2×1)=2. Soma dos resultados: 3+2=5.<br>Multiplicação dos de baixo (corpo): 2×3=6.<br>Resultado final: " + f(5,6),
+                mmc: "O MMC entre 2 e 3 é 6.<br>A fração " + f(1,2) + " vira " + f(3,6) + ".<br>A fração " + f(1,3) + " vira " + f(2,6) + ".<br>Somando os novos numeradores: 3+2=5. Resultado: " + f(5,6)
             },
             {
                 pergunta: "Calcule a diferença: " + f(3,4) + " - " + f(1,2),
                 img: imagens[2],
                 opcoes: [f(1,4), f(2,4), f(3,2), f(1,2)],
                 correta: 0,
-                borboleta: "Asas: (3×2)=6 e (4×1)=4. Subtração: 6-4=2.<br>Corpo: 4×2=8. Resultado: " + f(2,8) + " (Simplifica para " + f(1,4) + ")",
-                mmc: "MMC de 4 e 2 é 4.<br>" + f(3,4) + " mantém. " + f(1,2) + " vira " + f(2,4) + ".<br>3 - 2 = 1. Resultado: " + f(1,4)
+                borboleta: "Asas: (3×2)=6 e (4×1)=4. Subtração: 6-4=2.<br>Corpo: 4×2=8. Resultado: " + f(2,8) + " (que simplificado é " + f(1,4) + ")",
+                mmc: "MMC de 4 e 2 é 4.<br>Mantemos " + f(3,4) + ".<br>A fração " + f(1,2) + " vira " + f(2,4) + ".<br>Subtraindo: 3 - 2 = 1. Resultado: " + f(1,4)
             },
-            // Adicione mais questões aqui copiando o bloco acima...
+            // Adicione mais questões aqui...
             {
-                pergunta: "Quanto é " + f(2,5) + " + " + f(1,5) + "?",
-                img: imagens[0],
-                opcoes: [f(3,10), f(3,5), f(2,5), f(2,10)],
-                correta: 1,
-                borboleta: "Denominadores iguais (5). Apenas somamos os numeradores: 2 + 1 = 3.",
-                mmc: "Não é necessário MMC quando as bases são iguais. Resposta direta: " + f(3,5)
+                 pergunta: "Em uma receita vai " + f(2,5) + " de açúcar e " + f(1,5) + " de farinha. Qual o total de ingredientes secos?",
+                 img: imagens[0],
+                 opcoes: [f(3,10), f(3,5), f(2,5), f(2,10)],
+                 correta: 1,
+                 borboleta: "Quando os denominadores (números de baixo) são iguais, não precisamos da borboleta completa. Apenas somamos os de cima: 2+1=3. O 5 se mantém.",
+                 mmc: "Denominadores iguais não precisam de MMC. Soma direta: " + f(2,5) + "+" + f(1,5) + " = " + f(3,5)
             }
         ];
 
         // ==========================================================
-        // LÓGICA
+        // LÓGICA DO SISTEMA
         // ==========================================================
 
         let indice = 0;
@@ -335,17 +333,18 @@
         function carregar() {
             const q = questoes[indice];
             
-            // Layout Reset
+            // Reset visual
             document.getElementById('areaResposta').style.display = 'none';
             const botoesDiv = document.getElementById('containerOpcoes');
             botoesDiv.innerHTML = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Preencher Dados
+            // Preencher
             document.getElementById('contadorQ').innerText = `QUESTÃO ${indice + 1}/${questoes.length}`;
             document.getElementById('imgQuestao').src = q.img;
             document.getElementById('textoPergunta').innerHTML = q.pergunta;
 
-            // Criar Botões
+            // Botões
             q.opcoes.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-opcao';
@@ -358,11 +357,10 @@
         function responder(i, btn) {
             const q = questoes[indice];
             const todos = document.querySelectorAll('.btn-opcao');
-            
-            todos.forEach(b => b.disabled = true); // Trava tudo
+            todos.forEach(b => b.disabled = true);
 
             const areaResp = document.getElementById('areaResposta');
-            areaResp.style.display = 'block'; // Mostra resposta
+            areaResp.style.display = 'block';
 
             const titulo = document.getElementById('tituloFeedback');
             const icone = document.getElementById('iconeFeedback');
@@ -372,25 +370,23 @@
                 document.getElementById('scoreC').innerText = acertos;
                 btn.classList.add('certo');
                 icone.innerHTML = "🎉";
-                titulo.innerHTML = "Excelente! Você acertou.";
+                titulo.innerHTML = "Resposta Correta!";
                 titulo.style.color = "var(--success)";
             } else {
                 erros++;
                 document.getElementById('scoreE').innerText = erros;
                 btn.classList.add('errado');
                 todos[q.correta].classList.add('certo');
-                icone.innerHTML = "⚠️";
-                titulo.innerHTML = "Que pena, não foi dessa vez.";
+                icone.innerHTML = "😕";
+                titulo.innerHTML = "Não foi dessa vez...";
                 titulo.style.color = "var(--error)";
             }
 
-            // Textos
             document.getElementById('txtBorboleta').innerHTML = q.borboleta;
             document.getElementById('txtMMC').innerHTML = q.mmc;
 
-            // Scroll suave até a resposta
             setTimeout(() => {
-                areaResp.scrollIntoView({ behavior: 'smooth' });
+                areaResp.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
 
@@ -398,7 +394,6 @@
             if (indice < questoes.length - 1) {
                 indice++;
                 carregar();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 alert(`Fim do Quiz!\nAcertos: ${acertos}\nErros: ${erros}`);
                 indice = 0; acertos = 0; erros = 0;
