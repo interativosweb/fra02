@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matemática Divertida</title>
+    <title>Matemática Fundamental</title>
     <style>
-        /* --- ESTILO APPLE CLEAN (KIDS VERSION) --- */
+        /* --- ESTILO MINIMALISTA ESTRITO --- */
         :root {
             --bg-page: #f5f5f7;
             --text-main: #1d1d1f;
             --text-light: #86868b;
+            --border-color: #d2d2d7; /* Cinza para as bordas finas */
             --accent: #0071e3;
             --success: #34c759;
             --error: #ff3b30;
-            --radius: 24px; /* Cantos bem redondos para ser amigável */
+            --radius: 12px; /* Curva mais suave, menos "bolinha" */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -29,62 +30,58 @@
 
         .app-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1000px;
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 60px;
         }
 
-        /* --- FRAÇÃO VERTICAL (CSS FUNDAMENTAL) --- */
+        /* --- FRAÇÃO VERTICAL --- */
         .fracao {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
             vertical-align: middle;
-            margin: 0 6px;
+            margin: 0 4px;
         }
         .fracao .num { 
             border-bottom: 2px solid currentColor; 
-            padding: 2px 6px; 
+            padding: 1px 4px; 
             display: block; 
             line-height: 1; 
-            font-weight: 700; 
+            font-weight: 600; /* Levemente destacado */
         }
         .fracao .den { 
-            padding: 2px 6px; 
+            padding: 1px 4px; 
             display: block; 
             line-height: 1; 
-            font-weight: 700; 
+            font-weight: 600; 
         }
 
         /* --- PARTE 1: PERGUNTA --- */
         .secao-pergunta {
             display: flex;
-            gap: 40px;
-            align-items: center;
-            border-bottom: 2px solid #e5e5e5; /* Linha um pouco mais grossa */
-            padding-bottom: 40px;
+            gap: 50px;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 50px;
         }
 
         .coluna-imagem {
             flex: 1;
             display: flex;
             justify-content: center;
-            align-items: center;
-            /* Fundo transparente para seu PNG brilhar */
-            background-color: transparent; 
+            align-items: flex-start;
         }
 
         .img-atividade {
             max-width: 100%;
             max-height: 350px;
             object-fit: contain;
-            /* Filtro suave para destacar a imagem caso seja branca */
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.05)); 
         }
 
         .coluna-conteudo {
-            flex: 1.2;
+            flex: 1.4;
             display: flex;
             flex-direction: column;
         }
@@ -92,152 +89,127 @@
         .topo-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
+            margin-bottom: 25px;
+            font-size: 0.85rem;
             color: var(--text-light);
-            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
+        /* TEXTO DA QUESTÃO: Normal (não negrito) */
         .enunciado {
-            font-size: 1.6rem; /* Fonte grande para crianças */
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 400; /* Texto normal */
             margin-bottom: 40px;
             line-height: 1.5;
             color: var(--text-main);
         }
-
-        /* GRID DOS BOTÕES (AGORA QUADRADOS) */
-        .grid-opcoes {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 em linha */
-            gap: 20px;
+        
+        /* Apenas o que estiver dentro de <b> ficará negrito */
+        .enunciado b {
+            font-weight: 700;
         }
 
+        /* GRID OPÇÕES */
+        .grid-opcoes {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        /* BOTÃO TRANSPARENTE COM BORDA FINA */
         .btn-opcao {
-            background-color: #ffffff;
-            border: 2px solid transparent; /* Borda transparente pronta para cor */
-            border-radius: 20px;
-            aspect-ratio: 1 / 1; /* FORÇA SER QUADRADO */
-            font-size: 1.8rem; /* Fração bem grande */
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            aspect-ratio: 1 / 1; /* Quadrado */
+            font-size: 1.6rem;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.2s ease;
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .btn-opcao:hover:not(:disabled) {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--text-main); /* Escurece a borda ao passar mouse */
+            background-color: rgba(0,0,0,0.02);
         }
 
         /* Estados de Feedback */
-        .btn-opcao.certo { background-color: var(--success); color: white; border-color: var(--success); }
-        .btn-opcao.errado { background-color: var(--error); color: white; border-color: var(--error); }
-        .btn-opcao:disabled { cursor: default; opacity: 0.6; transform: none; }
+        .btn-opcao.certo { 
+            border-color: var(--success); 
+            color: var(--success); 
+            background-color: rgba(52, 199, 89, 0.1); /* Fundo verde muito leve */
+        }
+        
+        .btn-opcao.errado { 
+            border-color: var(--error); 
+            color: var(--error); 
+            background-color: rgba(255, 59, 48, 0.1); /* Fundo vermelho muito leve */
+        }
+        
+        .btn-opcao:disabled { cursor: default; }
 
-        /* --- PARTE 2: RESPOSTA DIDÁTICA --- */
+        /* --- PARTE 2: RESOLUÇÃO --- */
         .secao-resposta {
             display: none;
-            padding: 20px 0;
-            animation: slideUp 0.6s ease;
+            padding-bottom: 40px;
+            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .header-resposta {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .titulo-feedback {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        /* TEXTO DA EXPLICAÇÃO */
+        .texto-resolucao {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-main);
             margin-bottom: 40px;
         }
 
-        .titulo-feedback { font-size: 2rem; font-weight: 800; }
-
-        /* GRID DA EXPLICAÇÃO */
-        .container-explica {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        .bloco-metodo {
-            background-color: white;
-            padding: 30px;
-            border-radius: var(--radius);
-            box-shadow: 0 5px 25px rgba(0,0,0,0.03);
-        }
-
-        .bloco-metodo h3 {
-            font-size: 1rem;
-            text-transform: uppercase;
-            color: var(--accent); /* Título azul */
-            margin-bottom: 25px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            border-bottom: 2px solid #f0f0f5;
-            padding-bottom: 10px;
-        }
-
-        /* Texto passo a passo */
-        .passo {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #333;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .destaque-numero {
-            background-color: var(--text-main);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
         .btn-proximo {
-            margin-top: 50px;
-            width: 100%;
-            padding: 22px;
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--text-main);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            float: right;
+        }
+        .btn-proximo:hover {
             background-color: var(--text-main);
             color: white;
-            border: none;
-            border-radius: 20px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.2s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .btn-proximo:hover { transform: scale(1.02); background-color: black; }
 
         .rodape {
-            margin-top: 50px;
+            margin-top: 60px;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-light);
-            opacity: 0.7;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            clear: both;
         }
 
         /* RESPONSIVIDADE */
         @media (max-width: 900px) {
-            .secao-pergunta { flex-direction: column; text-align: center; }
-            .coluna-conteudo { width: 100%; }
-            .grid-opcoes { grid-template-columns: 1fr 1fr; /* 2x2 no celular */ }
-            .container-explica { grid-template-columns: 1fr; }
+            .secao-pergunta { flex-direction: column; }
+            .grid-opcoes { grid-template-columns: repeat(4, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .grid-opcoes { grid-template-columns: repeat(2, 1fr); }
             .img-atividade { max-height: 200px; }
         }
     </style>
@@ -255,9 +227,9 @@
                 <div class="topo-info">
                     <span id="contadorQ">Questão 1 de 10</span>
                     <div>
-                        <span style="color:var(--success)">Acertos: <b id="scoreC">0</b></span>
+                        <span style="color:var(--success)">Acertos: <span id="scoreC">0</span></span>
                         <span style="margin:0 10px; color:#ddd">|</span>
-                        <span style="color:var(--error)">Erros: <b id="scoreE">0</b></span>
+                        <span style="color:var(--error)">Erros: <span id="scoreE">0</span></span>
                     </div>
                 </div>
 
@@ -270,24 +242,12 @@
 
         <section class="secao-resposta" id="areaResposta">
             
-            <div class="header-resposta">
-                <div id="iconeFeedback" style="font-size: 3.5rem;"></div>
-                <div class="titulo-feedback" id="tituloFeedback"></div>
-            </div>
+            <span id="tituloFeedback" class="titulo-feedback"></span>
 
-            <div class="container-explica">
-                <div class="bloco-metodo">
-                    <h3>🦋 Método da Borboleta</h3>
-                    <div id="txtBorboleta"></div>
+            <div id="textoResolucao" class="texto-resolucao">
                 </div>
-                
-                <div class="bloco-metodo">
-                    <h3>➗ Utilizando o MMC</h3>
-                    <div id="txtMMC"></div>
-                </div>
-            </div>
 
-            <button class="btn-proximo" onclick="proximaQuestao()">Próxima Atividade ➜</button>
+            <button class="btn-proximo" onclick="proximaQuestao()">Próxima Questão</button>
 
             <div class="rodape">
                 Desenvolvido por Gilberto Fernandes - Matemática [Atividade Professora Simone Vieira]
@@ -297,18 +257,11 @@
     </div>
 
     <script>
-        // ==========================================================
-        // FERRAMENTAS PARA CRIAR CONTEÚDO DIDÁTICO
-        // ==========================================================
-        
-        // Função curta para criar fração: f(1, 2)
+        // Helper para Fração Vertical
         const f = (n, d) => `<div class='fracao'><span class='num'>${n}</span><span class='den'>${d}</span></div>`;
-        
-        // Função para criar passo numerado: p(1, "Texto")
-        const p = (num, texto) => `<div class='passo'><span class='destaque-numero'>${num}</span> ${texto}</div>`;
 
         // ==========================================================
-        // BANCO DE QUESTÕES (Use seus Links REAIS aqui)
+        // DADOS DAS QUESTÕES
         // ==========================================================
         const imagens = [
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png",
@@ -317,91 +270,65 @@
         ];
 
         const questoes = [
-            // QUESTÃO 1
+            // QUESTÃO 1 (Simples, sem MMC)
             {
-                pergunta: "Uma pizza foi dividida em 8 fatias. Se comermos 3 pedaços, qual fração representa a parte comida?",
+                pergunta: "Uma pizza foi dividida em <b>8 fatias</b>. Se comemos <b>3 pedaços</b>, qual fração representa a parte comida?",
                 img: imagens[0],
                 opcoes: [f(1,3), f(3,8), f(5,8), f(8,3)],
                 correta: 1,
-                borboleta: `
-                    ${p(1, "Para montar uma fração, precisamos de dois números.")}
-                    ${p(2, "Em baixo (Denominador), colocamos o total de fatias: <strong>8</strong>.")}
-                    ${p(3, "Em cima (Numerador), colocamos quantas comemos: <strong>3</strong>.")}
-                    ${p(4, "Juntando tudo temos: " + f(3,8) + ".")}
-                `,
-                mmc: `
-                    ${p(1, "Neste tipo de exercício, não precisamos calcular MMC.")}
-                    ${p(2, "Apenas observamos a imagem e contamos as partes.")}
-                    ${p(3, "Parte Pintada = 3. Total = 8. Resultado: " + f(3,8) + ".")}
+                // AQUI VOCÊ EXPLICA LIVREMENTE
+                resolucao: `
+                    Para escrever a fração, colocamos o total de pedaços em baixo. Como a pizza tem 8 fatias, o denominador é 8.<br><br>
+                    Em cima, colocamos quantos pedaços foram comidos. Foram 3.<br><br>
+                    Logo, a fração é ${f(3,8)}.
                 `
             },
 
-            // QUESTÃO 2 (Soma bases diferentes)
+            // QUESTÃO 2 (Soma bases diferentes - Com borboleta explicada no texto)
             {
-                pergunta: "Vamos somar frações! Quanto é " + f(1,2) + " mais " + f(1,3) + "?",
+                pergunta: "Quanto é " + f(1,2) + " mais " + f(1,3) + "?",
                 img: imagens[1],
                 opcoes: [f(2,5), f(1,5), f(5,6), f(1,6)],
                 correta: 2,
-                borboleta: `
-                    ${p(1, "Desenhamos as asas da borboleta multiplicando cruzado.")}
-                    ${p(2, "Asa 1: " + f(1,2) + " multiplicamos 1 x 3 = <strong>3</strong>.")}
-                    ${p(3, "Asa 2: " + f(1,3) + " multiplicamos 2 x 1 = <strong>2</strong>.")}
-                    ${p(4, "Corpo (em baixo): multiplicamos 2 x 3 = <strong>6</strong>.")}
-                    ${p(5, "Somamos as asas: 3 + 2 = 5. Mantemos o corpo 6. Resultado: " + f(5,6))}
-                `,
-                mmc: `
-                    ${p(1, "Encontramos o MMC entre 2 e 3, que é <strong>6</strong>.")}
-                    ${p(2, "O 6 passa a ser o novo denominador das duas frações.")}
-                    ${p(3, "A primeira fração vira " + f(3,6) + " e a segunda vira " + f(2,6) + ".")}
-                    ${p(4, "Agora é só somar os de cima: 3 + 2 = 5.")}
-                    ${p(5, "Resultado final: " + f(5,6) + ".")}
+                resolucao: `
+                    Como os números de baixo são diferentes, precisamos igualar ou usar o método da borboleta.<br><br>
+                    Primeiro multiplicamos cruzado: 1 vezes 3 dá 3. E 2 vezes 1 dá 2.<br>
+                    Depois multiplicamos os de baixo: 2 vezes 3 dá 6.<br><br>
+                    Somando os resultados de cima (3 + 2) ficamos com 5.<br>
+                    Mantendo o 6 em baixo, a resposta é ${f(5,6)}.
                 `
             },
 
             // QUESTÃO 3 (Subtração)
             {
-                pergunta: "Qual o resultado da conta " + f(3,4) + " menos " + f(1,2) + "?",
+                pergunta: "Qual o resultado de " + f(3,4) + " menos " + f(1,2) + "?",
                 img: imagens[2],
                 opcoes: [f(1,4), f(2,4), f(3,2), f(1,2)],
                 correta: 0,
-                borboleta: `
-                    ${p(1, "Multiplicamos cruzado (asas): 3 x 2 = <strong>6</strong> e 4 x 1 = <strong>4</strong>.")}
-                    ${p(2, "Multiplicamos os de baixo: 4 x 2 = <strong>8</strong>.")}
-                    ${p(3, "Subtraímos as asas: 6 - 4 = <strong>2</strong>.")}
-                    ${p(4, "Ficamos com " + f(2,8) + ".")}
-                    ${p(5, "Simplificando (dividindo por 2), chegamos a " + f(1,4) + ".")}
-                `,
-                mmc: `
-                    ${p(1, "O MMC de 4 e 2 é <strong>4</strong>.")}
-                    ${p(2, "A fração " + f(3,4) + " já está com 4 em baixo, então não muda.")}
-                    ${p(3, "A fração " + f(1,2) + " precisa mudar. Ela vira " + f(2,4) + ".")}
-                    ${p(4, "Conta final: " + f(3,4) + " - " + f(2,4) + " = " + f(1,4) + ".")}
+                resolucao: `
+                    Podemos notar que ${f(1,2)} é a mesma coisa que ${f(2,4)} (basta multiplicar por 2 em cima e em baixo).<br><br>
+                    Assim a conta fica: ${f(3,4)} menos ${f(2,4)}.<br><br>
+                    Como os de baixo são iguais, basta diminuir os de cima: 3 menos 2 sobra 1.<br>
+                    Resultado: ${f(1,4)}.
                 `
             },
 
-            // QUESTÃO 4 (Soma bases iguais)
+            // QUESTÃO 4 (Soma bases iguais - Simples)
             {
                 pergunta: "Soma simples: " + f(2,7) + " + " + f(3,7) + ". Quanto dá?",
                 img: imagens[0],
                 opcoes: [f(5,14), f(6,7), f(5,7), f(1,7)],
                 correta: 2,
-                borboleta: `
-                    ${p(1, "Atenção! Quando os números de baixo são iguais, não precisamos fazer a borboleta completa.")}
-                    ${p(2, "A regra é: Repete o de baixo e soma o de cima.")}
-                    ${p(3, "Em baixo mantemos o <strong>7</strong>.")}
-                    ${p(4, "Em cima somamos: 2 + 3 = <strong>5</strong>. Resultado: " + f(5,7))}
-                `,
-                mmc: `
-                    ${p(1, "Como os denominadores são iguais (7), o MMC é o próprio 7.")}
-                    ${p(2, "Não precisamos transformar as frações.")}
-                    ${p(3, "Apenas somamos os numeradores: 2 + 3 = 5.")}
-                    ${p(4, "O resultado direto é " + f(5,7) + ".")}
+                resolucao: `
+                    Quando o número de baixo é igual, não precisamos fazer conta difícil. Apenas repetimos o 7 em baixo.<br><br>
+                    Em cima somamos normalmente: 2 mais 3 é igual a 5.<br><br>
+                    Resultado: ${f(5,7)}.
                 `
             }
         ];
 
         // ==========================================================
-        // LÓGICA DO QUIZ
+        // SISTEMA
         // ==========================================================
 
         let indice = 0;
@@ -411,11 +338,11 @@
         function carregar() {
             const q = questoes[indice];
             
-            // Esconde resposta e rola para o topo
+            // Reseta tela
             document.getElementById('areaResposta').style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Preenche textos
+            // Textos
             document.getElementById('contadorQ').innerText = `Questão ${indice + 1} de ${questoes.length}`;
             document.getElementById('imgQuestao').src = q.img;
             document.getElementById('textoPergunta').innerHTML = q.pergunta;
@@ -427,7 +354,7 @@
             q.opcoes.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-opcao';
-                btn.innerHTML = opt; // Insere a fração HTML
+                btn.innerHTML = opt;
                 btn.onclick = () => responder(i, btn);
                 divBotoes.appendChild(btn);
             });
@@ -437,40 +364,32 @@
             const q = questoes[indice];
             const todos = document.querySelectorAll('.btn-opcao');
             
-            // Trava cliques
             todos.forEach(b => b.disabled = true);
-
-            // Exibe área de resposta
-            const areaResp = document.getElementById('areaResposta');
-            areaResp.style.display = 'block';
+            document.getElementById('areaResposta').style.display = 'block';
 
             const titulo = document.getElementById('tituloFeedback');
-            const icone = document.getElementById('iconeFeedback');
 
             if (i === q.correta) {
                 acertos++;
                 document.getElementById('scoreC').innerText = acertos;
                 btn.classList.add('certo');
-                icone.innerHTML = "🎉";
-                titulo.innerHTML = "Parabéns, você acertou!";
+                titulo.innerText = "Resposta Correta";
                 titulo.style.color = "var(--success)";
             } else {
                 erros++;
                 document.getElementById('scoreE').innerText = erros;
                 btn.classList.add('errado');
-                todos[q.correta].classList.add('certo'); // Mostra qual era a certa
-                icone.innerHTML = "🧐";
-                titulo.innerHTML = "Que pena! Veja como resolver:";
+                todos[q.correta].classList.add('certo'); // Mostra a certa
+                titulo.innerText = "A resposta correta é esta:";
                 titulo.style.color = "var(--error)";
             }
 
-            // Insere o Passo a Passo
-            document.getElementById('txtBorboleta').innerHTML = q.borboleta;
-            document.getElementById('txtMMC').innerHTML = q.mmc;
+            // Exibe a resolução única e direta
+            document.getElementById('textoResolucao').innerHTML = q.resolucao;
 
-            // Rola suave até a explicação
+            // Rola um pouco para baixo
             setTimeout(() => {
-                areaResp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.getElementById('areaResposta').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 100);
         }
 
@@ -479,7 +398,7 @@
                 indice++;
                 carregar();
             } else {
-                alert(`Fim da Atividade!\n\nVocê acertou ${acertos} de ${questoes.length}.`);
+                alert(`Fim da Atividade.\nAcertos: ${acertos}\nErros: ${erros}`);
                 indice = 0; acertos = 0; erros = 0;
                 document.getElementById('scoreC').innerText = 0;
                 document.getElementById('scoreE').innerText = 0;
@@ -487,7 +406,6 @@
             }
         }
 
-        // Inicia
         window.onload = carregar;
 
     </script>
