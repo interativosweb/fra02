@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Introdução às Frações</title>
+    <title>Introdução</title>
     <style>
-        /* --- O MESMO DESIGN CLEAN DO ANTERIOR --- */
+        /* --- ESTILO MINIMALISTA IDENTICO AO PRINCIPAL --- */
         :root {
             --bg-page: #f5f5f7;
             --text-main: #1d1d1f;
@@ -35,6 +35,16 @@
             flex-direction: column;
             gap: 60px;
         }
+
+        /* Títulos da Intro */
+        .header-intro {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 40px;
+        }
+        .header-intro h1 { font-size: 2rem; font-weight: 400; color: var(--text-main); margin-bottom: 10px; }
+        .header-intro p { color: var(--text-light); font-size: 1.1rem; }
 
         /* Fração Vertical */
         .fracao {
@@ -118,8 +128,16 @@
             transform: translateY(-2px);
         }
 
-        .btn-opcao.certo { border-color: var(--success); color: var(--success); background-color: rgba(52, 199, 89, 0.1); }
-        .btn-opcao.errado { border-color: var(--error); color: var(--error); background-color: rgba(255, 59, 48, 0.1); }
+        .btn-opcao.certo { 
+            border-color: var(--success); 
+            color: var(--success); 
+            background-color: rgba(52, 199, 89, 0.1); 
+        }
+        .btn-opcao.errado { 
+            border-color: var(--error); 
+            color: var(--error); 
+            background-color: rgba(255, 59, 48, 0.1); 
+        }
         .btn-opcao:disabled { cursor: default; }
 
         /* Área Resposta */
@@ -158,16 +176,6 @@
         }
         .btn-proximo:hover { background-color: var(--text-main); color: white; }
 
-        .rodape {
-            margin-top: 60px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-light);
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-            clear: both;
-        }
-
         /* Responsividade */
         @media (max-width: 900px) {
             .secao-pergunta { flex-direction: column; }
@@ -183,9 +191,9 @@
 
     <div class="app-container">
 
-        <div style="text-align:center; margin-bottom: 20px;">
-            <h1 style="font-size: 2rem; margin-bottom: 10px;">Aquecimento: Introdução</h1>
-            <p style="color: var(--text-light);">Vamos praticar alguns conceitos antes da atividade principal.</p>
+        <div class="header-intro">
+            <h1>Aquecimento</h1>
+            <p>Conceitos iniciais antes da atividade principal.</p>
         </div>
 
         <section class="secao-pergunta">
@@ -195,8 +203,8 @@
 
             <div class="coluna-conteudo">
                 <div class="topo-info">
-                    <span id="contadorQ">Introdução 1</span>
-                    </div>
+                    <span id="contadorQ">Questão 1</span>
+                </div>
 
                 <div id="textoPergunta" class="enunciado">Carregando...</div>
 
@@ -207,79 +215,62 @@
 
         <section class="secao-resposta" id="areaResposta">
             <span id="tituloFeedback" class="titulo-feedback"></span>
+            
             <div id="textoResolucao" class="texto-resolucao"></div>
             
             <button id="btnAcao" class="btn-proximo" onclick="proximaQuestao()">Próxima</button>
         </section>
 
-        <div class="rodape">
-            Desenvolvido por Gilberto Fernandes - Matemática
-        </div>
-
     </div>
 
     <script>
-        // Função para Fração
         const f = (n, d) => `<div class='fracao'><span class='num'>${n}</span><span class='den'>${d}</span></div>`;
 
-        // ==========================================================
-        // EDITE AS PERGUNTAS DA INTRODUÇÃO AQUI EM BAIXO
-        // ==========================================================
+        // OBSERVAÇÃO IMPORTANTE SOBRE IMAGENS:
+        // Se usar links da internet (https://...), funciona normal.
+        // Se for usar imagens locais da pasta Site_Fracoes, use: "../Site_Fracoes/img1.png"
         
-        // Coloque o link das imagens que vai usar na intro
-        const imagensIntro = [
-            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png", 
-            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png" 
+        const imagens = [
+            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img1.png",
+            "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img2.png"
         ];
 
+        // ==========================================
+        // EDITE SUAS PERGUNTAS DE INTRODUÇÃO AQUI
+        // ==========================================
         const questoes = [
-            // PERGUNTA 1
             {
-                pergunta: "Para começar: Qual fração representa a metade de um inteiro?",
-                img: imagensIntro[0],
+                pergunta: "Para aquecer: Qual fração representa exatamente a metade?",
+                img: imagens[1],
                 opcoes: [f(1,3), f(1,4), f(1,2), f(2,2)],
-                correta: 2, // Lembre-se: 0 é a primeira opção, 1 a segunda, 2 a terceira...
-                resolucao: `
-                    A metade significa dividir algo em 2 partes e pegar 1.<br>
-                    Por isso a fração é ${f(1,2)}.
-                `
+                correta: 2,
+                resolucao: "Metade é dividir por 2 e pegar 1 parte. Fração: " + f(1,2) + "."
             },
-            
-            // PERGUNTA 2
             {
-                pergunta: "Se temos o numerador 3 e o denominador 4, como fica a fração?",
-                img: imagensIntro[1],
-                opcoes: [f(4,3), f(3,4), f(3,3), f(4,4)],
-                correta: 1,
-                resolucao: `
-                    O numerador (3) sempre vai em cima.<br>
-                    O denominador (4) sempre vai em baixo.<br>
-                    Logo: ${f(3,4)}.
-                `
+                pergunta: "O número de cima da fração é chamado de:",
+                img: imagens[0],
+                opcoes: ["Denominador", "Numerador", "Inteiro", "Metade"], 
+                correta: 1, 
+                // Dica: Se a opção for texto (não fração), coloque entre aspas simples ou duplas
+                resolucao: "O número de cima é o <b>Numerador</b> (quantas partes pegamos). O de baixo é o Denominador."
             },
-
-            // ADICIONE MAIS SE QUISER...
+            // Copie e cole para criar mais perguntas...
         ];
-
-        // ==========================================================
-        // SISTEMA
-        // ==========================================================
 
         let indice = 0;
 
         function carregar() {
             if (indice >= questoes.length) {
-                // ACABOU A INTRODUÇÃO - MANDA PARA O SITE PRINCIPAL
-                finalizarIntro();
+                // FIM DA INTRODUÇÃO
+                // Aqui está o "pulo do gato": ../index.html volta uma pasta para achar o site principal
+                window.location.href = "../index.html"; 
                 return;
             }
 
             const q = questoes[indice];
             
             document.getElementById('areaResposta').style.display = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            document.getElementById('contadorQ').innerText = `Aquecimento ${indice + 1} de ${questoes.length}`;
+            document.getElementById('contadorQ').innerText = `Aquecimento ${indice + 1}/${questoes.length}`;
             document.getElementById('imgQuestao').src = q.img;
             document.getElementById('textoPergunta').innerHTML = q.pergunta;
 
@@ -289,12 +280,16 @@
             q.opcoes.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-opcao';
+                
+                // Verifica se é fração ou texto para ajustar tamanho da fonte se necessário
+                if(!opt.includes('fracao')) { btn.style.fontSize = "1rem"; btn.style.fontWeight = "600"; }
+                
                 btn.innerHTML = opt;
                 btn.onclick = () => responder(i, btn);
                 divBotoes.appendChild(btn);
             });
 
-            // Atualiza texto do botão
+            // Muda texto do botão na última pergunta
             const btnAcao = document.getElementById('btnAcao');
             if (indice === questoes.length - 1) {
                 btnAcao.innerText = "Ir para Atividade Principal ➜";
@@ -324,36 +319,11 @@
             }
 
             document.getElementById('textoResolucao').innerHTML = q.resolucao;
-            
-            setTimeout(() => {
-                document.getElementById('areaResposta').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
         }
 
         function proximaQuestao() {
             indice++;
             carregar();
-        }
-
-        function finalizarIntro() {
-            // Cria um aviso bonito antes de mudar de página
-            document.querySelector('.app-container').innerHTML = `
-                <div style="text-align:center; padding-top:50px;">
-                    <h1 style="font-size:2.5rem; margin-bottom:20px;">Aquecimento Concluído!</h1>
-                    <p style="font-size:1.2rem; color:var(--text-light); margin-bottom:40px;">
-                        Agora vamos para a atividade valendo pontos.
-                    </p>
-                    <a href="index.html" style="
-                        background-color: var(--text-main);
-                        color: white;
-                        padding: 20px 40px;
-                        border-radius: 50px;
-                        text-decoration: none;
-                        font-weight: bold;
-                        font-size: 1.2rem;
-                    ">Começar Atividade Principal</a>
-                </div>
-            `;
         }
 
         window.onload = carregar;
