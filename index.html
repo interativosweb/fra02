@@ -42,117 +42,20 @@
             vertical-align: middle;
             margin: 0 4px;
         }
-        .fracao .num {
-            border-bottom: 2px solid currentColor;
-            padding: 1px 4px;
-            display: block;
-            line-height: 1;
-            font-weight: 600;
+        .fracao .num { 
+            border-bottom: 2px solid currentColor; 
+            padding: 1px 4px; 
+            display: block; 
+            line-height: 1; 
+            font-weight: 600; 
         }
-        .fracao .den {
-            padding: 1px 4px;
-            display: block;
-            line-height: 1;
-            font-weight: 600;
-        }
-
-        /* ===== INTRODUÇÃO (NOVO) ===== */
-        .secao-introducao {
-            background: white;
-            border-radius: var(--radius);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 28px;
-            border: 1px solid var(--border-color);
+        .fracao .den { 
+            padding: 1px 4px; 
+            display: block; 
+            line-height: 1; 
+            font-weight: 600; 
         }
 
-        .intro-topo {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.85rem;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            background: rgba(0, 0, 0, 0.02);
-            color: var(--text-light);
-            font-size: 0.75rem;
-            white-space: nowrap;
-        }
-
-        .intro-imagem img {
-            max-width: 360px;
-            width: 100%;
-            max-height: 320px;
-            object-fit: contain;
-        }
-
-        .intro-enunciado {
-            width: 100%;
-            text-align: center;
-            font-size: 1.35rem;
-            line-height: 1.55;
-            color: var(--text-main);
-        }
-        .intro-enunciado b { font-weight: 700; }
-
-        /* alternativas embaixo da imagem (introdução) */
-        .intro-opcoes {
-            width: 100%;
-            max-width: 560px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .intro-acao {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 6px;
-        }
-
-        .btn-continuar {
-            background-color: var(--text-main);
-            color: white;
-            border: 1px solid var(--text-main);
-            padding: 14px 22px;
-            border-radius: 999px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-continuar:hover {
-            transform: translateY(-1px);
-            opacity: 0.95;
-        }
-
-        .intro-feedback {
-            width: 100%;
-            max-width: 720px;
-            display: none;
-            border-top: 1px solid var(--border-color);
-            padding-top: 18px;
-            color: var(--text-main);
-            line-height: 1.55;
-            font-size: 1.05rem;
-        }
-
-        /* ===== ATIVIDADE COMPLEMENTAR (JÁ EXISTIA) ===== */
         .secao-pergunta {
             display: flex;
             gap: 50px;
@@ -197,7 +100,7 @@
             line-height: 1.5;
             color: var(--text-main);
         }
-
+        
         .enunciado b {
             font-weight: 700;
         }
@@ -230,18 +133,18 @@
             transform: translateY(-2px);
         }
 
-        .btn-opcao.certo {
-            border-color: var(--success);
-            color: var(--success);
-            background-color: rgba(52, 199, 89, 0.1);
+        .btn-opcao.certo { 
+            border-color: var(--success); 
+            color: var(--success); 
+            background-color: rgba(52, 199, 89, 0.1); 
         }
-
-        .btn-opcao.errado {
-            border-color: var(--error);
-            color: var(--error);
-            background-color: rgba(255, 59, 48, 0.1);
+        
+        .btn-opcao.errado { 
+            border-color: var(--error); 
+            color: var(--error); 
+            background-color: rgba(255, 59, 48, 0.1); 
         }
-
+        
         .btn-opcao:disabled { cursor: default; }
 
         .secao-resposta {
@@ -315,9 +218,6 @@
         @media (max-width: 600px) {
             .grid-opcoes { grid-template-columns: repeat(2, 1fr); }
             .img-atividade { max-height: 200px; }
-
-            .secao-introducao { padding: 28px; }
-            .intro-opcoes { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -325,31 +225,7 @@
 
     <div class="app-container">
 
-        <!-- ===== INTRODUÇÃO (NOVO) ===== -->
-        <section class="secao-introducao" id="secaoIntroducao">
-            <div class="intro-topo">
-                <span>Introdução</span>
-                <span class="badge">Frações • Observação</span>
-            </div>
-
-            <div class="intro-imagem">
-                <img id="introImg" src="" alt="Figura de introdução">
-            </div>
-
-            <div id="introPergunta" class="intro-enunciado">Carregando...</div>
-
-            <!-- Alternativas embaixo da imagem -->
-            <div id="introOpcoes" class="intro-opcoes"></div>
-
-            <div id="introFeedback" class="intro-feedback"></div>
-
-            <div class="intro-acao">
-                <button class="btn-continuar" onclick="irParaComplementar()">Ir para atividade complementar</button>
-            </div>
-        </section>
-
-        <!-- ===== ATIVIDADE COMPLEMENTAR (A SUA, MANTIDA) ===== -->
-        <section class="secao-pergunta" id="secaoComplementar">
+        <section class="secao-pergunta">
             <div class="coluna-imagem">
                 <img id="imgQuestao" class="img-atividade" src="" alt="Atividade">
             </div>
@@ -366,14 +242,17 @@
 
                 <div id="textoPergunta" class="enunciado">Carregando...</div>
 
-                <div id="containerOpcoes" class="grid-opcoes"></div>
+                <div id="containerOpcoes" class="grid-opcoes">
+                    </div>
             </div>
         </section>
 
         <section class="secao-resposta" id="areaResposta">
+            
             <span id="tituloFeedback" class="titulo-feedback"></span>
 
-            <div id="textoResolucao" class="texto-resolucao"></div>
+            <div id="textoResolucao" class="texto-resolucao">
+                </div>
 
             <button class="btn-proximo" onclick="proximaQuestao()">Próxima Questão</button>
 
@@ -394,66 +273,6 @@
             "https://raw.githubusercontent.com/interativosweb/fra02/main/Site_Fracoes/img3.png"
         ];
 
-        /* ===== INTRODUÇÃO (NOVO) =====
-           - Layout diferente
-           - Alternativas embaixo da imagem
-           - Feedback simples (sem placar)
-        */
-        const introducao = {
-            pergunta: "Observe a figura com atenção.<br>Se a pizza foi dividida em <b>4 partes iguais</b>, qual fração representa <b>uma</b> dessas partes?",
-            img: imagens[0],
-            opcoes: [f(1,2), f(1,4), f(1,8), f(3,4)],
-            correta: 1,
-            feedbackCerto: `Isso! Se são 4 partes iguais, <b>1 parte</b> é ${f(1,4)}.`,
-            feedbackErrado: `Quase! Como são <b>4 partes iguais</b>, <b>1 parte</b> corresponde a ${f(1,4)}.`
-        };
-
-        function carregarIntroducao() {
-            document.getElementById('introImg').src = introducao.img;
-            document.getElementById('introPergunta').innerHTML = introducao.pergunta;
-
-            const areaOpcoes = document.getElementById('introOpcoes');
-            const feedback = document.getElementById('introFeedback');
-
-            areaOpcoes.innerHTML = '';
-            feedback.style.display = 'none';
-            feedback.innerHTML = '';
-
-            introducao.opcoes.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'btn-opcao';
-                btn.innerHTML = opt;
-                btn.onclick = () => responderIntroducao(i, btn);
-                areaOpcoes.appendChild(btn);
-            });
-        }
-
-        function responderIntroducao(i, btn) {
-            const botoes = document.querySelectorAll('#introOpcoes .btn-opcao');
-            botoes.forEach(b => b.disabled = true);
-
-            const feedback = document.getElementById('introFeedback');
-            feedback.style.display = 'block';
-
-            if (i === introducao.correta) {
-                btn.classList.add('certo');
-                feedback.innerHTML = `<b style="color: var(--success);">Resposta correta.</b><br><br>${introducao.feedbackCerto}`;
-            } else {
-                btn.classList.add('errado');
-                botoes[introducao.correta].classList.add('certo');
-                feedback.innerHTML = `<b style="color: var(--error);">A resposta correta é a destacada.</b><br><br>${introducao.feedbackErrado}`;
-            }
-
-            setTimeout(() => {
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 100);
-        }
-
-        function irParaComplementar() {
-            document.getElementById('secaoComplementar').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        /* ===== ATIVIDADE COMPLEMENTAR (A SUA, MANTIDA) ===== */
         const questoes = [
             {
                 pergunta: "Uma pizza foi dividida em <b>8 fatias</b>. Se comemos <b>3 pedaços</b>, qual fração representa a parte comida?",
@@ -531,15 +350,16 @@
             document.getElementById('scoreE').innerText = erros;
 
             if (indice >= questoes.length) {
-                document.querySelector('.secao-pergunta').innerHTML =
-                    "<h2 style='text-align:center; width:100%'>Parabéns! Você completou todas as atividades.</h2>";
+                // Se acabou tudo
+                document.querySelector('.secao-pergunta').innerHTML = "<h2 style='text-align:center; width:100%'>Parabéns! Você completou todas as atividades.</h2>";
                 document.getElementById('areaResposta').style.display = 'none';
                 return;
             }
 
             const q = questoes[indice];
-
+            
             document.getElementById('areaResposta').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             document.getElementById('contadorQ').innerText = `Questão ${indice + 1} de ${questoes.length}`;
             document.getElementById('imgQuestao').src = q.img;
@@ -547,7 +367,7 @@
 
             const divBotoes = document.getElementById('containerOpcoes');
             divBotoes.innerHTML = '';
-
+            
             q.opcoes.forEach((opt, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'btn-opcao';
@@ -559,8 +379,8 @@
 
         function responder(i, btn) {
             const q = questoes[indice];
-            const todos = document.querySelectorAll('#containerOpcoes .btn-opcao');
-
+            const todos = document.querySelectorAll('.btn-opcao');
+            
             todos.forEach(b => b.disabled = true);
             document.getElementById('areaResposta').style.display = 'block';
 
@@ -574,7 +394,7 @@
             } else {
                 erros++;
                 btn.classList.add('errado');
-                todos[q.correta].classList.add('certo');
+                todos[q.correta].classList.add('certo'); 
                 titulo.innerText = "A resposta correta é esta:";
                 titulo.style.color = "var(--error)";
             }
@@ -595,20 +415,17 @@
                 indice++;
                 salvarProgresso();
                 carregar();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 alert(`Fim da Atividade.\nAcertos: ${acertos}\nErros: ${erros}`);
-                indice++;
+                // Não reseta automaticamente para manter o histórico
+                indice++; 
                 salvarProgresso();
-                carregar();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                carregar(); 
             }
         }
 
-        window.onload = () => {
-            carregarIntroducao();  // novo
-            carregar();            // complementar (o seu)
-        };
+        window.onload = carregar;
+
     </script>
 </body>
 </html>
